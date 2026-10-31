@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en" x-data="resumeApp()" :class="{'dark': dark}">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="view-transition" content="same-origin" />
+  <meta name="description"
+    content="Professional Resume of Abhishek Gangwar — Information Technology Engineer, Full Stack Web Developer & Backend Engineer.">
+  <meta name="keywords"
+    content="Abhishek Gangwar, Resume, CV, Full Stack Developer, Backend Engineer, Information Technology, REC Mainpuri, Python, JavaScript, React, Tailwind CSS">
+  <meta name="author" content="Abhishek Gangwar">
+  <title>Resume — Abhishek Gangwar | IT Engineer & Full Stack Developer</title>
+  
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23FF6B2B' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><rect x='20' y='20' width='60' height='60' rx='12' transform='rotate(45 50 50)' /><path d='M35 63 L50 36 L65 63 M40 53h20' /></svg>">
+
+  <script>
+    if (window.location.pathname.endsWith('.html')) {
+      var cleanUrl = window.location.pathname.replace(/\.html$/, '') + window.location.search + window.location.hash;
+      window.history.replaceState(null, '', cleanUrl);
+    }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Alpine.js CDN -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=PT+Sans:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['PT Sans', 'Plus Jakarta Sans', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          colors: {
+            accent: '#FF6B2B',
+            'accent-light': '#FF8F5C',
+            'accent-dark': '#E05316'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'PT Sans', sans-serif;
+    }
+
+    /* Subtle grid background for interactive preview */
+    .bg-grid-pattern {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(120, 119, 198, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(120, 119, 198, 0.05) 1px, transparent 1px);
+    }
+    .dark .bg-grid-pattern {
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+
+    /* Toast animation */
+    @keyframes slideUpFade {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-toast {
+      animation: slideUpFade 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Print Styles: Strict ATS & Executive One/Two-Page Clean PDF Output */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 12mm 14mm 12mm 14mm;
+      }
+
+      html, body {
+        background: #ffffff !important;
+        color: #111827 !important;
+        font-size: 11pt !important;
+        line-height: 1.4 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Hide interactive floating controls, navbar, toasts */
+      .no-print,
+      .floating-toolbar,
+      .toast-container,
+      header.site-header,
+      footer.site-footer,
+      .bg-ambient-blob {
+        display: none !important;
+      }
+
+      .resume-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        background: transparent !important;
+      }
+
+      /* Prevent ugly breaks inside experience & project cards */
+      .avoid-break {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+      }
+
+      /* Print links styling */
+      a {
+        color: #111827 !important;
+        text-decoration: none !important;
+      }
+
+      .print-accent {
+        color: #c2410c !important; /* darker readable orange for print */
+      }
+
+      .print-tag {
+        border: 1px solid #d1d5db !important;
+        background: #f9fafb !important;
+        color: #111827 !important;
+      }
+
+      .print-border {
+        border-color: #e5e7eb !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-zinc-100 dark:bg-[#09090b] text-zinc-800 dark:text-zinc-200 antialiased min-h-screen relative selection:bg-accent selection:text-white">
+
+  <!-- Ambient Glow Blobs (Screen only) -->
+  <div class="bg-ambient-blob fixed top-0 left-1/4 w-[450px] h-[450px] bg-accent/10 dark:bg-accent/15 rounded-full blur-[130px] pointer-events-none -z-10" aria-hidden="true"></div>
+  <div class="bg-ambient-blob fixed bottom-10 right-10 w-[450px] h-[450px] bg-blue-500/10 dark:bg-blue-600/10 rounded-full blur-[140px] pointer-events-none -z-10" aria-hidden="true"></div>
+
+  <!-- ═══ FLOATING ACTION TOOLBAR ═══ -->
+  <aside class="floating-toolbar fixed top-4 inset-x-0 z-50 flex justify-center px-4 no-print pointer-events-none">
+    <div class="pointer-events-auto bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border border-zinc-200/80 dark:border-zinc-800/80 rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/40 px-3 py-2 flex items-center gap-2 text-sm transition-all duration-300">
+      
+      <!-- Back to Portfolio -->
+      <a href="./" 
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-zinc-600 dark:text-zinc-300 hover:text-black dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors font-medium"
+        title="Return to main portfolio">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        <span class="hidden sm:inline">Portfolio</span>
+      </a>
+
+      <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <!-- Download / Print PDF Button -->
+      <button @click="printResume()"
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-accent hover:bg-accent-light text-white font-medium shadow-md shadow-accent/25 hover:shadow-accent/40 hover:-translate-y-0.5 transition-all duration-200">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+        <span>Print / Save PDF</span>
+      </button>
+
+      <!-- Copy ATS Text -->
+      <button @click="copyPlainText()"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors font-medium"
+        title="Copy ATS Plaintext Resume to Clipboard">
+        <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+        </svg>
+        <span class="hidden md:inline">Copy ATS Text</span>
+      </button>
+
+      <div class="w-px h-5 bg-zinc-200 dark:bg-zinc-800"></div>
+
+      <!-- Theme Switcher -->
+      <button @click="toggleTheme()"
+        class="w-8 h-8 flex items-center justify-center rounded-xl text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        :title="dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        :aria-label="dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+        <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+        <svg x-show="dark" class="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+        </svg>
+      </button>
+
+    </div>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div x-show="toast.show" x-cloak
+    class="toast-container fixed bottom-6 right-6 z-50 pointer-events-none no-print">
+    <div class="animate-toast bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2.5 text-sm font-medium border border-zinc-700/50">
+      <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <span x-text="toast.message"></span>
+    </div>
+  </div>
+
+  <!-- ═══ MAIN RESUME CONTAINER ═══ -->
+  <main class="pt-24 pb-16 px-4 sm:px-6 md:px-8 max-w-4xl mx-auto">
+
+    <!-- Resume Document Sheet -->
+    <article class="resume-sheet bg-white dark:bg-zinc-900/90 rounded-3xl p-6 sm:p-10 md:p-14 border border-zinc-200/90 dark:border-zinc-800/90 shadow-2xl shadow-zinc-300/40 dark:shadow-black/60 relative overflow-hidden transition-all duration-300">
+      
+      <!-- Top Decorative Accent Bar (Screen only) -->
+      <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-accent via-orange-400 to-amber-500 no-print" aria-hidden="true"></div>
+
+      <!-- ═════════ HEADER SECTION ═════════ -->
+      <header class="border-b border-zinc-200 dark:border-zinc-800 pb-8 mb-8 print-border">
+        <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
+          
+          <div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white mb-2 font-display">
+              Abhishek <span class="text-accent print-accent">Gangwar</span>
+            </h1>
+            <p class="text-base sm:text-lg font-medium text-zinc-700 dark:text-zinc-300 tracking-wide mb-3">
+              Information Technology Engineer &bull; Full Stack Web Developer &amp; Backend Engineer
+            </p>
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+              Passionate engineer specialized in scalable backend systems, high-concurrency web scrapers, RESTful microservices, and modern responsive frontend engineering.
+            </p>
+          </div>
+
+          <!-- Profile Badge / Photo (Optional on Print) -->
+          <div class="shrink-0 flex items-center sm:flex-col sm:items-end gap-3 no-print">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Available for Hire
+            </span>
+          </div>
+        </div>
+
+        <!-- Contact & Social Details Grid -->
+        <div class="mt-6 pt-6 border-t border-zinc-100 dark:border-zinc-800/60 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 print:text-zinc-800 print-border">
+          
+          <!-- Email -->
+          <a href="mailto:abhishekgangwar8936@gmail.com" 
+            class="flex items-center gap-2 hover:text-accent transition-colors group">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <span class="truncate">abhishekgangwar8936@gmail.com</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/abhishek-gangwar-19bba93a1" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-2 hover:text-accent transition-colors group">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+            </svg>
+            <span class="truncate">linkedin.com/in/abhishek-gangwar-19bba93a1</span>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com/abhishekgangwar8936-cmd" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-2 hover:text-accent transition-colors group">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+            </svg>
+            <span class="truncate">github.com/abhishekgangwar8936-cmd</span>
+          </a>
+
+          <!-- Portfolio URL -->
+          <a href="https://abhishekgangwar8936-cmd.github.io/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-2 hover:text-accent transition-colors group">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+            <span class="truncate">abhishekgangwar8936-cmd.github.io</span>
+          </a>
+
+          <!-- Location -->
+          <div class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>Uttar Pradesh, India</span>
+          </div>
+
+          <!-- Academic Status -->
+          <div class="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+            <svg class="w-4 h-4 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M12 14l9-5-9-5-9 5 9 5z" />
+              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+            </svg>
+            <span>B. Tech IT &bull; Session 2025–2029</span>
+          </div>
+
+        </div>
+      </header>
+
+      <!-- ═════════ PROFESSIONAL SUMMARY ═════════ -->
+      <section class="mb-8 avoid-break">
+        <h2 class="text-xs uppercase tracking-widest font-bold text-accent print-accent mb-3 flex items-center gap-2">
+          <span>01. Professional Summary</span>
+          <span class="grow h-px bg-zinc-200 dark:bg-zinc-800 print-border"></span>
+        </h2>
+        <p class="text-sm sm:text-base leading-relaxed text-zinc-700 dark:text-zinc-300 print:text-zinc-800 text-justify">
+          Results-oriented <strong>Information Technology Engineering student</strong> and <strong>Full Stack Developer</strong> with strong foundational expertise in systems logic, object-oriented design, and algorithms (C, C++, Python). Proven track record of architecting end-to-end production web applications, high-throughput concurrent scraping systems, and privacy-first software architectures. Experienced in building high-speed responsive user interfaces, robust RESTful APIs, and secure data storage pipelines. Known for combining technical problem solving with modern UI/UX design to deliver intuitive, accessible, and high-performance digital solutions.
+        </p>
+      </section>
+
+      <!-- ═════════ TECHNICAL SKILLS ═════════ -->
+      <section class="mb-8 avoid-break">
+        <h2 class="text-xs uppercase tracking-widest font-bold text-accent print-accent mb-4 flex items-center gap-2">
+          <span>02. Technical Toolkit &amp; Competencies</span>
+          <span class="grow h-px bg-zinc-200 dark:bg-zinc-800 print-border"></span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+          
+          <!-- Languages -->
+          <div class="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/70 dark:border-zinc-800 print-tag">
+            <h3 class="font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-accent"></span>
+              Programming Languages
+            </h3>
+            <p class="text-xs text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              <strong>C</strong> (Memory Management &amp; Pointers), <strong>C++</strong> (OOP &amp; Data Structures), <strong>Python</strong> (FastAPI, Automation, Scraping), <strong>JavaScript (ES6+)</strong>, <strong>TypeScript</strong>, <strong>SQL</strong>, <strong>HTML5 &amp; CSS3</strong>.
+            </p>
+          </div>
+
+          <!-- Backend & APIs -->
+          <div class="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/70 dark:border-zinc-800 print-tag">
+            <h3 class="font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              Backend &amp; Server Architecture
+            </h3>
+            <p class="text-xs text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              RESTful APIs, Python (<code class="font-mono text-[11px]">http.server</code>, FastAPI, Flask), Node.js, Express.js, Multi-Store Scraping Engines, WebSockets, CORS, Auth &amp; Security, JSON Schema Contracts.
+            </p>
+          </div>
+
+          <!-- Frontend & UI/UX -->
+          <div class="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/70 dark:border-zinc-800 print-tag">
+            <h3 class="font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              Frontend &amp; UI/UX Engineering
+            </h3>
+            <p class="text-xs text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              Responsive Mobile-First Architecture, Tailwind CSS, Alpine.js (Reactive State), WebGL &amp; Canvas Shaders, Figma Wireframing &amp; Prototyping, Lenis Physics, Accessibility (WCAG), Core Web Vitals.
+            </p>
+          </div>
+
+          <!-- Databases & DevOps -->
+          <div class="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200/70 dark:border-zinc-800 print-tag">
+            <h3 class="font-bold text-zinc-900 dark:text-white mb-2 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+              Databases, Tools &amp; DevOps
+            </h3>
+            <p class="text-xs text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              PostgreSQL, MySQL, SQLite, MongoDB (NoSQL), Git &amp; GitHub Version Control, GitHub Actions (CI/CD), Postman API Testing, Linux Bash / CLI, Vite, npm.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═════════ FEATURED PROJECTS ═════════ -->
+      <section class="mb-8">
+        <h2 class="text-xs uppercase tracking-widest font-bold text-accent print-accent mb-5 flex items-center gap-2">
+          <span>03. Featured Engineering Projects</span>
+          <span class="grow h-px bg-zinc-200 dark:bg-zinc-800 print-border"></span>
+        </h2>
+
+        <div class="space-y-6">
+
+          <!-- 1. Print-Secure -->
+          <div class="avoid-break p-5 sm:p-6 rounded-2xl bg-zinc-50/70 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/80 print-tag">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white">
+                  Print-Secure &mdash; Digital Printing &amp; Privacy Solution
+                </h3>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold no-print">Live App</span>
+              </div>
+              <span class="text-xs font-mono font-medium text-zinc-500 dark:text-zinc-400">2026 &bull; Production</span>
+            </div>
+
+            <p class="text-xs font-semibold text-accent print-accent mb-2">
+              Tech Stack: JavaScript / React, Tailwind CSS, Web Crypto API, QR Pairing Protocol, Node.js API
+            </p>
+
+            <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              <li>Architected a secure, contactless digital document-printing ecosystem for campus print shops, addressing privacy vulnerabilities inherent in shared USB drives and WhatsApp file sharing.</li>
+              <li>Engineered dynamic QR-code pairing between user mobile devices and local print kiosks with zero registration friction.</li>
+              <li>Designed and implemented an on-demand encrypted file transmission protocol enforcing a strict <strong>zero permanent storage policy</strong> on intermediate servers.</li>
+              <li>Built automated post-print cryptographic document destruction and digital receipt validation, ensuring files are shredded instantly after job completion.</li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/60 flex flex-wrap gap-4 text-xs font-medium text-zinc-600 dark:text-zinc-400 print:text-zinc-700">
+              <a href="https://github.com/abhishekgangwar8936-cmd/Print-Secure" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1">
+                <span>GitHub:</span>
+                <span class="underline">github.com/abhishekgangwar8936-cmd/Print-Secure</span>
+              </a>
+              <span class="no-print">&bull;</span>
+              <a href="./print-secure" target="_blank" rel="noopener noreferrer" class="hover:text-accent underline no-print">
+                Live Interactive Showcase &rarr;
+              </a>
+            </div>
+          </div>
+
+          <!-- 2. SastaKhareedo -->
+          <div class="avoid-break p-5 sm:p-6 rounded-2xl bg-zinc-50/70 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/80 print-tag">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white">
+                  SastaKhareedo &mdash; Multi-Store Price Comparison &amp; Deal Engine
+                </h3>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold no-print">Live App</span>
+              </div>
+              <span class="text-xs font-mono font-medium text-zinc-500 dark:text-zinc-400">2025 &bull; Live Web App</span>
+            </div>
+
+            <p class="text-xs font-semibold text-accent print-accent mb-2">
+              Tech Stack: Python, Multi-Store Web Scrapers, RESTful Endpoints, JavaScript / Alpine.js, Tailwind CSS
+            </p>
+
+            <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              <li>Engineered a high-speed e-commerce aggregation engine tracking live prices and deals across major retailers including Amazon, Flipkart, Meesho, Croma, and Reliance Digital.</li>
+              <li>Developed concurrent Python scrapers with resilient header rotation and error-handling routines to extract dynamic prices, discount percentages, and availability flags.</li>
+              <li>Built data normalization algorithms to cross-reference multi-vendor SKU variants and compute all-time lowest price drops with statistical historical comparisons.</li>
+              <li>Designed a lightning-fast responsive interface featuring instant keyword queries, merchant filters, and deep-link direct purchasing buttons.</li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/60 flex flex-wrap gap-4 text-xs font-medium text-zinc-600 dark:text-zinc-400 print:text-zinc-700">
+              <a href="./sastakhareedo" target="_blank" rel="noopener noreferrer" class="hover:text-accent underline">
+                Live App: abhishekgangwar8936-cmd.github.io/sastakhareedo
+              </a>
+            </div>
+          </div>
+
+          <!-- 3. My Todo -->
+          <div class="avoid-break p-5 sm:p-6 rounded-2xl bg-zinc-50/70 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/80 print-tag">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white">
+                  My Todo &mdash; Minimalist Daily Planner &amp; Productivity App
+                </h3>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold no-print">Live App</span>
+              </div>
+              <span class="text-xs font-mono font-medium text-zinc-500 dark:text-zinc-400">2025 &bull; Production</span>
+            </div>
+
+            <p class="text-xs font-semibold text-accent print-accent mb-2">
+              Tech Stack: Modern JavaScript, Alpine.js, Tailwind CSS, LocalStorage Offline Sync, Canvas Confetti
+            </p>
+
+            <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              <li>Designed and developed a minimalist, Material-inspired productivity web application facilitating daily task prioritization, categorization, and progress tracking.</li>
+              <li>Implemented reactive client state using Alpine.js paired with zero-latency browser LocalStorage persistence to ensure 100% offline functionality.</li>
+              <li>Crafted intuitive priority tags (High, Medium, Low), reminder alerts, filter tabs, and interactive completion milestones with celebratory confetti feedback.</li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/60 flex flex-wrap gap-4 text-xs font-medium text-zinc-600 dark:text-zinc-400 print:text-zinc-700">
+              <a href="./todo" target="_blank" rel="noopener noreferrer" class="hover:text-accent underline">
+                Live App: abhishekgangwar8936-cmd.github.io/todo
+              </a>
+            </div>
+          </div>
+
+          <!-- 4. Interactive 3D WebGL Portfolio Platform -->
+          <div class="avoid-break p-5 sm:p-6 rounded-2xl bg-zinc-50/70 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/80 print-tag">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white">
+                  Interactive 3D WebGL Portfolio Platform
+                </h3>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 font-semibold no-print">Live</span>
+              </div>
+              <span class="text-xs font-mono font-medium text-zinc-500 dark:text-zinc-400">2024 &ndash; 2026</span>
+            </div>
+
+            <p class="text-xs font-semibold text-accent print-accent mb-2">
+              Tech Stack: WebGL (GLSL Shaders), Canvas API, Lenis Smooth Scrolling, Tailwind CSS, Alpine.js
+            </p>
+
+            <ul class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-zinc-600 dark:text-zinc-300 print:text-zinc-800 leading-relaxed">
+              <li>Engineered a custom high-performance WebGL interactive shader background animating smooth real-time fluid visual patterns at consistent 60 FPS.</li>
+              <li>Integrated Lenis inertial smooth scroll physics with zero Cumulative Layout Shift (CLS), responsive drawer navigation, and accessible dark/light theming.</li>
+              <li>Attained 95+ score across Google Lighthouse metrics for Performance, Accessibility, and SEO.</li>
+            </ul>
+
+            <div class="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/60 flex flex-wrap gap-4 text-xs font-medium text-zinc-600 dark:text-zinc-400 print:text-zinc-700">
+              <a href="https://abhishekgangwar8936-cmd.github.io/" target="_blank" rel="noopener noreferrer" class="hover:text-accent underline">
+                Portfolio: abhishekgangwar8936-cmd.github.io
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ═════════ EDUCATION ═════════ -->
+      <section class="mb-8 avoid-break">
+        <h2 class="text-xs uppercase tracking-widest font-bold text-accent print-accent mb-4 flex items-center gap-2">
+          <span>04. Education &amp; Academic Credentials</span>
+          <span class="grow h-px bg-zinc-200 dark:bg-zinc-800 print-border"></span>
+        </h2>
+
+        <div class="p-5 sm:p-6 rounded-2xl bg-zinc-50/70 dark:bg-zinc-800/30 border border-zinc-200 dark:border-zinc-800/80 print-tag">
+          <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
+            <div>
+              <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white">
+                Bachelor of Technology (B. Tech) &mdash; Information Technology
+              </h3>
+              <p class="text-sm font-medium text-zinc-700 dark:text-zinc-300 print:text-zinc-800">
+                Lokmata Devi Ahilyabai Holkar Rajkiya Engineering College (REC), Mainpuri, Uttar Pradesh
+              </p>
+            </div>
+            <span class="text-xs font-mono font-semibold text-accent print-accent shrink-0">
+              Session: 2025 &ndash; 2029
+            </span>
+          </div>
+
+          <div class="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-700/60">
+            <p class="text-xs text-zinc-600 dark:text-zinc-400 print:text-zinc-800 leading-relaxed">
+              <strong>Core Coursework:</strong> Data Structures &amp; Algorithms (DSA), Object-Oriented Programming (OOP), Database Management Systems (DBMS), Operating Systems (OS), Computer Organization &amp; Architecture, Computer Networks, Software Engineering.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═════════ CORE STRENGTHS & METHODOLOGIES ═════════ -->
+      <section class="avoid-break">
+        <h2 class="text-xs uppercase tracking-widest font-bold text-accent print-accent mb-4 flex items-center gap-2">
+          <span>05. Core Strengths &amp; Engineering Values</span>
+          <span class="grow h-px bg-zinc-200 dark:bg-zinc-800 print-border"></span>
+        </h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+          <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 print-tag">
+            <p class="font-bold text-zinc-900 dark:text-white mb-1">Systems Thinking</p>
+            <p class="text-zinc-500 dark:text-zinc-400 print:text-zinc-700">Scalable &amp; modular architecture</p>
+          </div>
+          <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 print-tag">
+            <p class="font-bold text-zinc-900 dark:text-white mb-1">Clean Code</p>
+            <p class="text-zinc-500 dark:text-zinc-400 print:text-zinc-700">Maintainable, testable &amp; DRY</p>
+          </div>
+          <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 print-tag">
+            <p class="font-bold text-zinc-900 dark:text-white mb-1">Privacy by Design</p>
+            <p class="text-zinc-500 dark:text-zinc-400 print:text-zinc-700">Zero-storage security patterns</p>
+          </div>
+          <div class="p-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200/60 dark:border-zinc-800 print-tag">
+            <p class="font-bold text-zinc-900 dark:text-white mb-1">Fast Learner</p>
+            <p class="text-zinc-500 dark:text-zinc-400 print:text-zinc-700">Rapid tech stack adaptation</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Print Footer info -->
+      <footer class="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800/60 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-400 print:text-zinc-500 print-border">
+        <p>&copy; Abhishek Gangwar &bull; Verified Portfolio Resume</p>
+        <p>Available online at: <span class="font-mono">abhishekgangwar8936-cmd.github.io/resume</span></p>
+      </footer>
+
+    </article>
+
+    <!-- Bottom Action CTA (Screen only) -->
+    <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 no-print text-center">
+      <button @click="printResume()"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent hover:bg-accent-light text-white font-medium shadow-xl shadow-accent/25 hover:shadow-accent/40 hover:-translate-y-0.5 transition-all duration-200 text-sm">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+        <span>Print / Save as PDF</span>
+      </button>
+
+      <a href="mailto:abhishekgangwar8936@gmail.com"
+        class="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-zinc-300 dark:border-zinc-700 text-zinc-800 dark:text-zinc-200 hover:bg-white dark:hover:bg-zinc-800 font-medium transition-all text-sm">
+        <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        <span>Contact Abhishek Directly</span>
+      </a>
+    </div>
+
+  </main>
+
+  <!-- Alpine App Logic -->
+  <script>
+    function resumeApp() {
+      return {
+        dark: true,
+        toast: {
+          show: false,
+          message: ''
+        },
+
+        init() {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme) {
+            this.dark = savedTheme === 'dark';
+          } else {
+            this.dark = true; // default dark to match portfolio
+          }
+        },
+
+        toggleTheme() {
+          this.dark = !this.dark;
+          localStorage.setItem('theme', this.dark ? 'dark' : 'light');
+        },
+
+        showToast(msg) {
+          this.toast.message = msg;
+          this.toast.show = true;
+          setTimeout(() => {
+            this.toast.show = false;
+          }, 3200);
+        },
+
+        printResume() {
+          window.print();
+        },
+
+        copyPlainText() {
+          const plainTextResume = `ABHISHEK GANGWAR
+Information Technology Engineer | Full Stack Web Developer & Backend Engineer
+Location: Uttar Pradesh, India
+Email: abhishekgangwar8936@gmail.com
+LinkedIn: https://www.linkedin.com/in/abhishek-gangwar-19bba93a1
+GitHub: https://github.com/abhishekgangwar8936-cmd
+Portfolio: https://abhishekgangwar8936-cmd.github.io/
+
+--------------------------------------------------------------------------------
+PROFESSIONAL SUMMARY
+--------------------------------------------------------------------------------
+Results-oriented Information Technology Engineering student and Full Stack Developer with strong foundational expertise in systems logic, object-oriented design, and algorithms (C, C++, Python). Proven track record of architecting end-to-end production web applications, high-throughput concurrent scraping systems, and privacy-first software architectures. Experienced in building high-speed responsive user interfaces, robust RESTful APIs, and secure data storage pipelines. Known for combining technical problem solving with modern UI/UX design to deliver intuitive, accessible, and high-performance digital solutions.
+
+--------------------------------------------------------------------------------
+TECHNICAL SKILLS
+--------------------------------------------------------------------------------
+* Programming Languages: C (Systems Logic & Memory), C++ (OOP & DSA), Python (FastAPI, Automation, Scraping), JavaScript (ES6+), TypeScript, SQL, HTML5, CSS3
+* Backend & Server Architecture: RESTful APIs, Python (FastAPI, http.server, Flask), Node.js, Express.js, Multi-Store Live Scraping Engines, WebSockets, CORS, Auth & Security, JSON Schema Contracts
+* Frontend & UI/UX: Responsive Web Development, Tailwind CSS, Alpine.js (Reactive State), WebGL & Canvas Shaders, UI/UX Wireframing & Prototyping (Figma), Micro-Interactions, Accessibility (WCAG), Core Web Vitals
+* Databases & DevOps: PostgreSQL, MySQL, SQLite, MongoDB (NoSQL), Git & GitHub, GitHub Actions (CI/CD), Postman, cURL, Linux CLI / Bash, Vite, npm
+
+--------------------------------------------------------------------------------
+FEATURED PROJECTS
+--------------------------------------------------------------------------------
+1. Print-Secure — Digital Printing & Privacy Solution (2026)
+   Live App & GitHub: https://github.com/abhishekgangwar8936-cmd/Print-Secure
+   Tech Stack: JavaScript / React, Tailwind CSS, Web Crypto API, QR Pairing Protocol, Node.js API
+   * Architected a secure, contactless digital document-printing ecosystem for campus print shops, addressing privacy vulnerabilities inherent in shared USB drives and WhatsApp file sharing.
+   * Engineered dynamic QR-code pairing between user mobile devices and local print kiosks with zero registration friction.
+   * Designed and implemented an on-demand encrypted file transmission protocol enforcing a strict zero permanent storage policy on intermediate servers.
+   * Built automated post-print cryptographic document destruction and digital receipt validation, ensuring files are shredded instantly after job completion.
+
+2. SastaKhareedo — Multi-Store Price Comparison & Deal Engine (2025)
+   Live App: https://abhishekgangwar8936-cmd.github.io/sastakhareedo
+   Tech Stack: Python, Multi-Store Web Scrapers, RESTful Endpoints, JavaScript / Alpine.js, Tailwind CSS
+   * Engineered a high-speed e-commerce aggregation engine tracking live prices and deals across major retailers including Amazon, Flipkart, Meesho, Croma, and Reliance Digital.
+   * Developed concurrent Python scrapers with resilient header rotation and error-handling routines to extract dynamic prices, discount percentages, and availability flags.
+   * Built data normalization algorithms to cross-reference multi-vendor SKU variants and compute all-time lowest price drops with statistical historical comparisons.
+   * Designed a lightning-fast responsive interface featuring instant keyword queries, merchant filters, and deep-link direct purchasing buttons.
+
+3. My Todo — Minimalist Daily Planner & Productivity App (2025)
+   Live App: https://abhishekgangwar8936-cmd.github.io/todo
+   Tech Stack: Modern JavaScript, Alpine.js, Tailwind CSS, LocalStorage Offline Sync, Canvas Confetti
+   * Designed and developed a minimalist, Material-inspired productivity web application facilitating daily task prioritization, categorization, and progress tracking.
+   * Implemented reactive client state using Alpine.js paired with zero-latency browser LocalStorage persistence to ensure 100% offline functionality.
+   * Crafted intuitive priority tags (High, Medium, Low), reminder alerts, filter tabs, and interactive completion milestones with celebratory confetti feedback.
+
+4. Interactive 3D WebGL Portfolio Platform (2024 - 2026)
+   Live App: https://abhishekgangwar8936-cmd.github.io/
+   Tech Stack: WebGL (GLSL Shaders), Canvas API, Lenis Smooth Scrolling, Tailwind CSS, Alpine.js
+   * Engineered a custom high-performance WebGL interactive shader background animating smooth real-time fluid visual patterns at consistent 60 FPS.
+   * Integrated Lenis inertial smooth scroll physics with zero Cumulative Layout Shift (CLS), responsive drawer navigation, and accessible dark/light theming.
+   * Attained 95+ score across Google Lighthouse metrics for Performance, Accessibility, and SEO.
+
+--------------------------------------------------------------------------------
+EDUCATION
+--------------------------------------------------------------------------------
+Bachelor of Technology (B. Tech) in Information Technology
+Lokmata Devi Ahilyabai Holkar Rajkiya Engineering College (REC), Mainpuri, Uttar Pradesh
+Session: 2025 – 2029
+Relevant Coursework: Data Structures & Algorithms, Object-Oriented Programming, Database Management Systems (DBMS), Operating Systems, Computer Networks, Software Engineering.
+`;
+
+          navigator.clipboard.writeText(plainTextResume.trim()).then(() => {
+            this.showToast('ATS Plaintext Resume copied to clipboard!');
+          }).catch(err => {
+            console.error('Failed to copy text: ', err);
+            this.showToast('Failed to copy. Please select and copy manually.');
+          });
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>
