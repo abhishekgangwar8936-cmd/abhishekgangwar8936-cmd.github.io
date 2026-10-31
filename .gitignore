@@ -5,7 +5,6 @@ __pycache__/
 
 # Temporary and test files
 scratch/
-test_*.py
 .system_generated/
 
 # OS generated files
