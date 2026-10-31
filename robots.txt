@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abhishekgangwar8936-cmd.github.io/sitemap.xml
